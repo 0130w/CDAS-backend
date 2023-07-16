@@ -1,2 +1,2 @@
 # CDAS-backend
-College Data Analysis backend
+College Data Analysis System backend
