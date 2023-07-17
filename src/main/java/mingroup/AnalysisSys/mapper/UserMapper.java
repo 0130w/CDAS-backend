@@ -1,10 +1,7 @@
 package mingroup.AnalysisSys.mapper;
 
 import mingroup.AnalysisSys.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -24,4 +21,8 @@ public interface UserMapper {
 
     @Select("select * from user where user_name = #{userName} and password = #{password}")
     public User login(String userName, String password);
+
+    @Update("insert into user(user_name, password, sex, grade, province_name, des_major, des_province, des_college) values(#{userName}, #{" +
+            "password}, #{sex}, #{grade}, #{provinceName}, #{desMajor}, #{desProvince}, #{desCollege})")
+    public boolean insertUser(User user);
 }
