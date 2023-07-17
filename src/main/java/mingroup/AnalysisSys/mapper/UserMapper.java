@@ -19,6 +19,9 @@ public interface UserMapper {
     })
     public List<User> findAll();
 
+    @Select("select * from user where user_name = #{userName}")
+    public User findByUserName(String userName);
+
     @Select("select * from user where user_name = #{userName} and password = #{password}")
     public User login(String userName, String password);
 }

@@ -24,6 +24,4 @@ public class LoginController {
         // otherwise return null
         return userMapper.login(userName, password);
     }
-
-
 }
