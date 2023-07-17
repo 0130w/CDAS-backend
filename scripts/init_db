@@ -33,7 +33,7 @@ sql_colleges = "create table if not exists `college` ( \
                 sex_radio float(11) not null, \
                 der float(11) not null, \
                 oer float(11) not null, \
-                keyword varchar(20) not null, \
+                keyword varchar(50) not null, \
                 province_name varchar(20) not null, \
                 popularity float(11) not null\
                 )"

@@ -1,0 +1,543 @@
+#!/usr/bin/env python3
+
+import mysql.connector
+from mysql.connector import errorcode
+
+try:
+
+    cnx = mysql.connector.connect(
+        host = "localhost",
+        user = "root",
+        # password = ""
+        database = "db"
+    )
+
+    cursor = cnx.cursor()   # create a cursor
+
+    cnx.start_transaction() # start a transaction
+
+    province_datas = [
+        {
+            "province_name": "四川",
+            "college_num": 134
+        },
+        {
+            "province_name": "重庆",
+            "college_num": 69
+        },
+        {
+             "province_name": "山东",
+             "college_num": 153
+         },
+         {
+             "province_name": "北京",
+             "college_num": 92
+          },
+          {
+              "province_name": "广东",
+              "college_num": 160
+          },
+          {
+               "province_name": "江苏",
+               "college_num": 167
+          }
+
+    ]
+
+    def insert_province (province_data):
+        cursor.execute("insert into province(province_name, college_num) values ('{}', {})".format(province_data["province_name"], province_data["college_num"]))
+
+    for i in province_datas:
+        insert_province(i)
+
+    print("Insert province data successfully!")
+
+    college_datas = [
+        {
+            "college_name": "四川大学",
+            "employ_rate": 0.88,
+            "sex_radio": 1.07,
+            "der": 0.509,
+            "oer": 0.1016,
+            "keyword": "双一流、文理兼强、中等偏上",
+            "province_name": "四川",
+            "popularity": 33061066
+        },
+        {
+             "college_name": "北京大学",
+             "employ_rate": 0.972,
+             "sex_radio": 1.50,
+              "der": 0.763,
+              "oer": 0.175,
+              "keyword": "中国的名牌大学;培养高级知识分子的摇篮;招生条件极高",
+              "province_name": "北京",
+              "popularity": 23288784
+        },
+        {
+           "college_name": "重庆大学",
+           "employ_rate": 0.95,
+            "sex_radio": 1.53,
+            "der": 0.35,
+            "oer": 0.08,
+            "keyword": "985大学;科技助力冬奥会",
+            "province_name": "重庆",
+            "popularity": 18734601
+         }
+    ]
+
+    def insert_college(college_data):
+        cursor.execute("insert into college(college_name, employ_rate, sex_radio, der, oer, keyword, province_name, popularity) \
+                       values ('{}','{}','{}','{}','{}','{}','{}','{}')".format
+                       (college_data["college_name"], college_data["employ_rate"],college_data["sex_radio"],college_data["der"],college_data["oer"],college_data["keyword"],college_data["province_name"],college_data["popularity"]))
+
+    for i in college_datas:
+        insert_college(i)
+
+    print("Insert college data successfully!")
+
+    major_datas = [ 
+        {
+            "major_name": "数学"
+        },
+        {
+            "major_name": "计算机科学与技术"
+        },
+        {
+            "major_name": "中国语言文学"
+        },
+        {
+            "major_name": "口腔医学"
+        },
+        {
+            "major_name": "机械工程"
+        },
+        {
+            "major_name": "电气工程"
+        }
+    ]
+
+    def insert_major(major_data):
+        cursor.execute("insert into major(major_name) values ('{}')".format(major_data["major_name"]))
+
+    for i in major_datas:
+        insert_major(i)
+
+    print("Insert major data successfully!")
+
+
+    major_info_datas = [
+        {
+            "college_name": "四川大学",
+            "major_name": "口腔医学",
+            "level": "A+"
+        },
+        {
+            "college_name": "四川大学",
+            "major_name": "中国语言文学",
+            "level": "A"
+        },
+        {
+            "college_name": "重庆大学",
+            "major_name": "机械工程",
+            "level": "A-"
+        },
+        {
+            "college_name": "重庆大学",
+            "major_name": "电气工程",
+            "level": "A-"
+        },
+        {
+            "college_name": "北京大学",
+            "major_name": "数学",
+            "level": "A+"
+        },
+        {
+            "college_name": "北京大学",
+            "major_name": "计算机科学与技术",
+            "level": "A+"
+        },
+        {
+            "college_name": "北京大学",
+            "major_name": "中国语言文学",
+            "level": "A+"
+        },
+        {
+            "college_name": "北京大学",
+            "major_name": "口腔医学",
+            "level": "A+"
+        }
+    ]
+
+    for i in major_info_datas:
+        cursor.execute("select college_id from college where college_name = '{}'".format(i["college_name"]))
+        college_id = cursor.fetchone()[0]
+        cursor.execute("select major_id from major where major_name = '{}'".format(i["major_name"]))
+        major_id = cursor.fetchone()[0]
+        cursor.execute("insert into major_info(college_id, major_id, level) values ('{}','{}','{}')".format(college_id, major_id, i["level"]))
+
+    print("Insert major_info data successfully!")
+
+    relation_datas = [
+        {
+            "college_name": "重庆大学",
+            "province_name": "北京",
+            "year_array": [
+                2022,
+                2021,
+                2020,
+            ],
+            "lowest_grade_array": [
+                610,
+                616,
+                616,
+            ],
+            "lowest_ranking_array": [
+                7296,
+                5860,
+                6733,
+            ],
+            "enroll_num_array": [
+                5,
+                25,
+                4,
+            ]
+        },
+        {
+            "college_name": "四川大学",
+            "province_name": "北京",
+            "year_array": [
+                2022,
+                2021,
+                2020,
+            ],
+            "lowest_grade_array": [
+                616,
+                603,
+                605,
+            ],
+            "lowest_ranking_array": [
+                6509,
+                7612,
+                8400,
+            ],
+            "enroll_num_array": [
+                21,
+                15,
+                22,
+            ]
+        },
+        {
+            "college_name": "北京大学",
+            "province_name": "北京",
+            "year_array": [
+                2022,
+                2021,
+                2020,
+            ],
+            "lowest_grade_array": [
+                687,
+                678,
+                683,
+            ],
+            "lowest_ranking_array": [
+                416,
+                461,
+                478,
+            ],
+            "enroll_num_array": [
+                58,
+                58,
+                30,
+            ]
+        }
+    ]
+
+    def insert_relation(relation_data):
+        cursor.execute("select college_id from college where college_name = '{}'".format(relation_data["college_name"]))
+        college_id = cursor.fetchone()[0]
+        for i in range(len(relation_data["year_array"])):
+            cursor.execute("insert into relation(college_id, province_name, year, lowest_grade, lowest_ranking, enroll_num) \
+                            values ('{}','{}','{}','{}','{}','{}')".format(college_id, relation_data["province_name"], relation_data["year_array"][i], relation_data["lowest_grade_array"][i], relation_data["lowest_ranking_array"][i], relation_data["enroll_num_array"][i]))
+            
+    for i in relation_datas:
+        insert_relation(i)
+
+    print("Insert relation data successfully!")
+
+    major_enroll_datas = \
+    [
+        {
+            "college_name": "北京大学",
+            "province_name": "北京",
+            "year_array": 
+            [
+                2022,
+                2021,
+                2020
+            ],
+            # the length of majors_info_array must be equal to the length of year_array
+            "majors_info_array": 
+            [
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 688,
+                        "major_ranking": 390
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 688,
+                        "major_ranking": 390
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 678,
+                        "major_ranking": 461
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 673,
+                        "major_ranking": 1018
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 685,
+                        "major_ranking": 248
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 685,
+                        "major_ranking": 248
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 678,
+                        "major_ranking": 427
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 679,
+                        "major_ranking": 427
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 690,
+                        "major_ranking": 262
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 690,
+                        "major_ranking": 262
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 684,
+                        "major_ranking": 448
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 680,
+                        "major_ranking": 607
+                    }
+                ]
+            ]
+        },
+        {
+            "college_name": "四川大学",
+            "province_name": "北京",
+            "year_array": 
+            [
+                2022,
+                2021,
+                2020
+            ],
+            # the length of majors_info_array must be equal to the length of year_array
+            "majors_info_array": 
+            [
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 641,
+                        "major_ranking": 3643
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 642,
+                        "major_ranking": 3533
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 637,
+                        "major_ranking": 4078
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 669,
+                        "major_ranking": 1278
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 631,
+                        "major_ranking": 4074
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 631,
+                        "major_ranking": 4074
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": None,
+                        "major_ranking": None
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 654,
+                        "major_ranking": 1898
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 641,
+                        "major_ranking": 3502
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 640,
+                        "major_ranking": 3621
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": None,
+                        "major_ranking": None
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": 665,
+                        "major_ranking": 1437
+                    }
+                ]
+
+            ]
+        },
+        {
+            "college_name": "重庆大学",
+            "province_name": "北京",
+            "year_array": 
+            [
+                2022,
+                2021,
+                2020
+            ],
+            # the length of majors_info_array must be equal to the length of year_array
+            "majors_info_array": 
+            [
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 625,
+                        "major_ranking": 5408
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 625,
+                        "major_ranking": 5408
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 625,
+                        "major_ranking": 5408
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": None,
+                        "major_ranking": None
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 617,
+                        "major_ranking": 5719
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 617,
+                        "major_ranking": 5719
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 619,
+                        "major_ranking": 5479
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": None,
+                        "major_ranking": None
+                    }
+                ],
+                [
+                    {
+                        "major_name": "数学",
+                        "major_grade": 626,
+                        "major_ranking": 5321
+                    },
+                    {
+                        "major_name": "计算机科学与技术",
+                        "major_grade": 624,
+                        "major_ranking": 5586
+                    },
+                    {
+                        "major_name": "中国语言文学",
+                        "major_grade": 621,
+                        "major_ranking": 6018
+                    },
+                    {
+                        "major_name": "口腔医学",
+                        "major_grade": None,
+                        "major_ranking": None
+                    }
+                ]
+            ]
+        }
+    ]
+
+    def insert_major_enroll(major_enroll_data):
+        cursor.execute("select college_id from college where college_name = %s", (major_enroll_data["college_name"],))
+        college_id = cursor.fetchone()[0]
+        for i in range(len(major_enroll_data["year_array"])):
+            for j in range(len(major_enroll_data["majors_info_array"])):
+                cursor.execute("select major_id from major where major_name = %s", (major_enroll_data["majors_info_array"][i][j]["major_name"],))
+                major_id = cursor.fetchone()[0]
+                major_grade = major_enroll_data["majors_info_array"][i][j]["major_grade"]
+                major_ranking = major_enroll_data["majors_info_array"][i][j]["major_ranking"]
+                cursor.execute("insert into major_enroll(college_id, province_name, major_id, year, major_grade, major_ranking) values (%s, %s, %s, %s, %s, %s)",
+                            (college_id, major_enroll_data["province_name"], major_id, major_enroll_data["year_array"][i], major_grade, major_ranking))
+
+
+    for i in major_enroll_datas:
+        insert_major_enroll(i)
+
+    print("Insert major_enroll data successfully!")
+
+    cursor.execute("insert into user(user_name, password) values(%s, %s)", ("admin", "123456"))
+
+    print("Insert user data successfully!")
+
+    cnx.commit()    # commit the transaction
+    print("Transaction commit successfully!")
+
+except mysql.connector.Error as err:
+    cnx.rollback()
+    print(f"Transaction rollback due to err: {err}")
+
+finally:
+    cursor.close()
+    cnx.close()
