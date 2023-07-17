@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+
+import mysql.connector
+
+cnx = mysql.connector.connect(
+    host = "localhost",
+    user = "root",
+    # password = ""
+)
+
+cursor = cnx.cursor()   # create a cursor
+
+# query db is existing or not
+cursor.execute("show databases like 'db'")
+result = cursor.fetchone()
+
+if result:
+    cursor.execute("use db")
+    cursor.execute("drop database db")
+    print("db delete successfully")
+else:
+    print("db not exists, skip delete\n")
+
+cursor.execute("create database if not exists db")
+cnx.commit()
+
+cursor.execute("use db")    # use db
+
+sql_colleges = "create table if not exists `college` ( \
+                college_id int(11) not null auto_increment primary key, \
+                college_name varchar(20) not null unique, \
+                employ_rate float(11) not null, \
+                sex_radio float(11) not null, \
+                der float(11) not null, \
+                oer float(11) not null, \
+                keyword varchar(20) not null, \
+                province_name varchar(20) not null, \
+                popularity float(11) not null\
+                )"
+
+sql_users = "create table if not exists `user` ( \
+            user_id int(11) not null auto_increment primary key, \
+            user_name varchar(20) not null unique, \
+            password varchar(20) not null, \
+            sex varchar(20), \
+            grade float(11), \
+            province_name varchar(20), \
+            des_major varchar(20), \
+            des_province varchar(20), \
+            des_college varchar(20)\
+            )"
+
+sql_major = "create table if not exists `major` ( \
+            major_id int(11) not null auto_increment primary key, \
+            major_name varchar(20) not null unique\
+            )"
+
+sql_major_info = "create table if not exists `major_info` ( \
+                  college_id int(11) not null, \
+                  major_id int(11) not null, \
+                  level varchar(10) not null, \
+                  primary key (college_id, major_id), \
+                  foreign key (college_id) references college(college_id), \
+                  foreign key (major_id) references major(major_id) \
+                  )"
+
+sql_relation = "create table if not exists `relation` ( \
+                college_id int(11) not null, \
+                province_name varchar(20) not null, \
+                year int(11) not null, \
+                lowest_grade float(11), \
+                lowest_ranking int(11), \
+                enroll_num int(11), \
+                primary key (college_id, province_name, year), \
+                foreign key (college_id) references college(college_id), \
+                foreign key (province_name) references province(province_name) \
+                )"
+
+sql_major_enroll = "create table if not exists `major_enroll` ( \
+                    college_id int(11) not null, \
+                    province_name varchar(20) not null, \
+                    major_id int(11) not null, \
+                    year int(11) not null, \
+                    major_grade float(11), \
+                    major_ranking int(11), \
+                    primary key (college_id, province_name, major_id, year), \
+                    foreign key (college_id) references college(college_id), \
+                    foreign key (province_name) references province(province_name), \
+                    foreign key (major_id) references major(major_id) \
+                    )"
+
+sql_province = "create table if not exists `province` ( \
+            province_id int(11) not null auto_increment primary key, \
+            province_name varchar(20) not null unique, \
+            college_num int(11) not null \
+            )"
+
+cursor.execute(sql_colleges)
+cursor.execute(sql_major)
+cursor.execute(sql_province)
+cursor.execute(sql_users)
+cursor.execute(sql_major_enroll)
+cursor.execute(sql_major_info)
+cursor.execute(sql_relation)
+
+cursor.close()
+cnx.close()

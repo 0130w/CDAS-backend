@@ -2,7 +2,6 @@ package mingroup.AnalysisSys.controller.user;
 
 
 import mingroup.AnalysisSys.entity.User;
-import mingroup.AnalysisSys.mapper.CollegeMapper;
 import mingroup.AnalysisSys.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +19,10 @@ public class LoginController {
     UserMapper userMapper;
 
     @GetMapping("/login")
-    protected List<User> findAll() {
-        return userMapper.findAll();
+    protected User login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+        // return a user object if login successfully
+        // otherwise return null
+        return userMapper.login(userName, password);
     }
 
 

@@ -18,4 +18,7 @@ public interface UserMapper {
             @Result(column = "user_name", property = "userName")
     })
     public List<User> findAll();
+
+    @Select("select * from user where user_name = #{userName} and password = #{password}")
+    public User login(String userName, String password);
 }
