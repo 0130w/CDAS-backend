@@ -9,7 +9,6 @@ public class College {
     private float der;
     private float oer;
     private String keyword;
-    private int studentNum;
     private String province;
     private float popularity;
     private boolean displayAd;
@@ -68,14 +67,6 @@ public class College {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
-    }
-
-    public int getStudentNum() {
-        return studentNum;
-    }
-
-    public void setStudentNum(int studentNum) {
-        this.studentNum = studentNum;
     }
 
     public String getProvince() {

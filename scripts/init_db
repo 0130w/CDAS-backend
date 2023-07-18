@@ -30,7 +30,7 @@ sql_colleges = "create table if not exists `college` ( \
                 college_id int(11) not null auto_increment primary key, \
                 college_name varchar(20) not null unique, \
                 employ_rate float(11) not null, \
-                sex_radio float(11) not null, \
+                sex_ratio float(11) not null, \
                 der float(11) not null, \
                 oer float(11) not null, \
                 keyword varchar(50) not null, \
