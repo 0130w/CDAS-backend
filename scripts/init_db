@@ -35,7 +35,8 @@ sql_colleges = "create table if not exists `college` ( \
                 oer float(11) not null, \
                 keyword varchar(50) not null, \
                 province_name varchar(20) not null, \
-                popularity float(11) not null\
+                popularity float(11) not null, \
+                display_ad boolean default False \
                 )"
 
 sql_users = "create table if not exists `user` ( \
@@ -47,7 +48,7 @@ sql_users = "create table if not exists `user` ( \
             province_name varchar(20), \
             des_major varchar(20), \
             des_province varchar(20), \
-            des_college varchar(20)\
+            des_college varchar(20) \
             )"
 
 sql_major = "create table if not exists `major` ( \
