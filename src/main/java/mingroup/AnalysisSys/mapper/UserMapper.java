@@ -25,4 +25,7 @@ public interface UserMapper {
     @Update("insert into user(user_name, password, sex, grade, province_name, des_major, des_province, des_college) values(#{userName}, #{" +
             "password}, #{sex}, #{grade}, #{provinceName}, #{desMajor}, #{desProvince}, #{desCollege})")
     public boolean insertUser(User user);
+
+    @Delete("delete from user where user_name = #{userName}")
+    public boolean deleteUser(String userName);
 }

@@ -96,6 +96,12 @@ sql_province = "create table if not exists `province` ( \
             college_num int(11) not null \
             )"
 
+sql_feedback = "create table if not exists `feedback` ( \
+                user_name varchar(20) not null, \
+                feedback varchar(100) not null, \
+                primary key (user_name, feedback) \
+                )"
+
 cursor.execute(sql_colleges)
 cursor.execute(sql_major)
 cursor.execute(sql_province)
@@ -103,6 +109,7 @@ cursor.execute(sql_users)
 cursor.execute(sql_major_enroll)
 cursor.execute(sql_major_info)
 cursor.execute(sql_relation)
+cursor.execute(sql_feedback)
 
 cursor.close()
 cnx.close()
