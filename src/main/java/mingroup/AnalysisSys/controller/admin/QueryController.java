@@ -134,4 +134,9 @@ public class QueryController {
         }
         return colleges.get(counter);
     }
+
+    @GetMapping("/query/find-feedback-by-user-name")
+    protected List<Feedback> findFeedbackByUserName(String userName) {
+        return userMapper.findFeedbackByUserName(userName);
+    }
 }
