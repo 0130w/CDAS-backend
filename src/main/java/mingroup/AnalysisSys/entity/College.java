@@ -9,7 +9,7 @@ public class College {
     private float der;
     private float oer;
     private String keyword;
-    private String province;
+    private String provinceName;
     private float popularity;
     private boolean displayAd;
 
@@ -70,11 +70,11 @@ public class College {
     }
 
     public String getProvince() {
-        return province;
+        return provinceName;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setProvince(String provinceName) {
+        this.provinceName = provinceName;
     }
 
     public float getPopularity() {

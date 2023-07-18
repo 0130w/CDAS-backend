@@ -25,8 +25,8 @@ public class UpdateController {
     }
 
     @GetMapping("/delete/user")
-    protected boolean deleteUser(String username) {
-        return userMapper.deleteUser(username);
+    protected boolean deleteUser(String userName) {
+        return userMapper.deleteUser(userName);
     }
 
     @PostMapping("/insert/feedback")

@@ -56,7 +56,7 @@ try:
         {
             "college_name": "四川大学",
             "employ_rate": 0.88,
-            "sex_radio": 1.07,
+            "sex_ratio": 1.07,
             "der": 0.509,
             "oer": 0.1016,
             "keyword": "双一流、文理兼强、中等偏上",
@@ -66,7 +66,7 @@ try:
         {
              "college_name": "北京大学",
              "employ_rate": 0.972,
-             "sex_radio": 1.50,
+             "sex_ratio": 1.50,
               "der": 0.763,
               "oer": 0.175,
               "keyword": "中国的名牌大学;培养高级知识分子的摇篮;招生条件极高",
@@ -76,7 +76,7 @@ try:
         {
            "college_name": "重庆大学",
            "employ_rate": 0.95,
-            "sex_radio": 1.53,
+            "sex_ratio": 1.53,
             "der": 0.35,
             "oer": 0.08,
             "keyword": "985大学;科技助力冬奥会",
@@ -86,9 +86,9 @@ try:
     ]
 
     def insert_college(college_data):
-        cursor.execute("insert into college(college_name, employ_rate, sex_radio, der, oer, keyword, province_name, popularity) \
+        cursor.execute("insert into college(college_name, employ_rate, sex_ratio, der, oer, keyword, province_name, popularity) \
                        values ('{}','{}','{}','{}','{}','{}','{}','{}')".format
-                       (college_data["college_name"], college_data["employ_rate"],college_data["sex_radio"],college_data["der"],college_data["oer"],college_data["keyword"],college_data["province_name"],college_data["popularity"]))
+                       (college_data["college_name"], college_data["employ_rate"],college_data["sex_ratio"],college_data["der"],college_data["oer"],college_data["keyword"],college_data["province_name"],college_data["popularity"]))
 
     for i in college_datas:
         insert_college(i)
@@ -527,7 +527,7 @@ try:
 
     print("Insert major_enroll data successfully!")
 
-    cursor.execute("insert into user(user_name, password) values(%s, %s)", ("admin", "123456"))
+    cursor.execute("insert into user(user_name, password, sex, grade, province_name, des_major, des_province, des_college) values(%s, %s, %s, %s, %s, %s, %s, %s)", ("admin", "123456", "男", 690, "上海", "数学", "北京", "北京大学"))
 
     print("Insert user data successfully!")
 
