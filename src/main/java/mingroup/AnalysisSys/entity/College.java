@@ -12,6 +12,7 @@ public class College {
     private int studentNum;
     private String province;
     private float popularity;
+    private boolean displayAd;
 
     public int getCollegeId() {
         return collegeId;
@@ -91,6 +92,14 @@ public class College {
 
     public void setPopularity(float popularity) {
         this.popularity = popularity;
+    }
+
+    public boolean isDisplayAd() {
+        return displayAd;
+    }
+
+    public void setDisplayAd(boolean displayAd) {
+        this.displayAd = displayAd;
     }
 
 }
