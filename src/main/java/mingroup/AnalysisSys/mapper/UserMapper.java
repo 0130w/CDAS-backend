@@ -30,8 +30,8 @@ public interface UserMapper {
     @Delete("delete from user where user_name = #{userName}")
     public boolean deleteUser(String userName);
 
-    @Update("update user set password=#{password} sex=#{sex} grade=#{grade} province_name=#{provinceName} des_major=#{desMajor} des_province=#{desProvince} des_college=#{desCollege} where user_name=#{userName}")
-    public boolean updateUser(String userName, String password, String sex, float grade, String provinceName, String desMajor, String desProvince, String desCollege);
+    @Update("update user set password=#{password}, sex=#{sex}, grade=#{grade}, province_name=#{provinceName}, des_major=#{desMajor}, des_province=#{desProvince}, des_college=#{desCollege} where user_name=#{userName}")
+    public boolean updateUser(User user);
 
     @Select("select * from feedback where user_name = #{userName}")
     public List<Feedback> findFeedbackByUserName(String userName);

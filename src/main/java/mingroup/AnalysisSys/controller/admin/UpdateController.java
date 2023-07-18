@@ -37,6 +37,6 @@ public class UpdateController {
 
     @PostMapping("/update/user")
     protected boolean updateUser(@RequestBody User user) {
-        return userMapper.updateUser(user.getUserName(), user.getPassword(), user.getSex(), user.getGrade(), user.getProvinceName(), user.getDesMajor(), user.getDesProvince(), user.getDesCollege());
+        return userMapper.updateUser(user);
     }
 }
