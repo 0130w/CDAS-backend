@@ -33,6 +33,9 @@ public class QueryController {
     @Autowired
     MajorEnrollMapper majorEnrollMapper;
 
+    @Autowired
+    ProvinceMapper provinceMapper;
+
     @GetMapping("/query/users")
     protected List<User> queryUsers() {
         return userMapper.findAll();
@@ -161,5 +164,10 @@ public class QueryController {
             }
         });
         return colleges;
+    }
+
+    @GetMapping("/query/provinces")
+    protected List<Province> findAllProvinces() {
+        return provinceMapper.findAll();
     }
 }
