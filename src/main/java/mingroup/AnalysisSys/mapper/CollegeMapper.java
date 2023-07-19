@@ -24,4 +24,8 @@ public interface CollegeMapper {
 
     @Update("update college set display_ad = #{displayAd} where college_name = #{collegeName}")
     public boolean updateDisplayAd(String collegeName, boolean displayAd);
+
+    @Update("update college set employ_rate = #{employRate}, sex_ratio = #{sexRatio}, der = #{der}, oer = #{oer}, keyword = #{keyword}," +
+            "province_name = #{provinceName}, popularity = #{popularity}, display_ad = #{displayAd} where college_name = #{collegeName}")
+    public boolean updateCollege(College college);
 }

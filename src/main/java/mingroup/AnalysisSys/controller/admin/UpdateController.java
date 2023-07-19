@@ -1,5 +1,6 @@
 package mingroup.AnalysisSys.controller.admin;
 
+import mingroup.AnalysisSys.entity.College;
 import mingroup.AnalysisSys.entity.Feedback;
 import mingroup.AnalysisSys.entity.User;
 import mingroup.AnalysisSys.mapper.CollegeMapper;
@@ -38,5 +39,10 @@ public class UpdateController {
     @PostMapping("/update/user")
     protected boolean updateUser(@RequestBody User user) {
         return userMapper.updateUser(user);
+    }
+
+    @PostMapping("/update/college")
+    protected boolean updateCollege(@RequestBody College college) {
+        return collegeMapper.updateCollege(college);
     }
 }
