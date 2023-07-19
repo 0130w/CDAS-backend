@@ -17,6 +17,6 @@ public class RegisterController {
     @PostMapping("/register")
     public boolean register(@RequestBody User user) {
         // if grade property is not specified, the default value equals to 0
-        return userMapper.insertUser(user);
+        return userMapper.findByUserName(user.getUserName()) == null && userMapper.insertUser((user));
     }
 }
