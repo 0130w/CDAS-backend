@@ -60,7 +60,7 @@ try:
             "der": 0.509,
             "oer": 0.1016,
             "keyword": "双一流、文理兼强、中等偏上",
-            "province_name": "四川",
+            "college_province": "四川",
             "popularity": 33061066
         },
         {
@@ -70,7 +70,7 @@ try:
               "der": 0.763,
               "oer": 0.175,
               "keyword": "中国的名牌大学;培养高级知识分子的摇篮;招生条件极高",
-              "province_name": "北京",
+              "college_province": "北京",
               "popularity": 23288784
         },
         {
@@ -80,15 +80,15 @@ try:
             "der": 0.35,
             "oer": 0.08,
             "keyword": "985大学;科技助力冬奥会",
-            "province_name": "重庆",
+            "college_province": "重庆",
             "popularity": 18734601
          }
     ]
 
     def insert_college(college_data):
-        cursor.execute("insert into college(college_name, employ_rate, sex_ratio, der, oer, keyword, province_name, popularity) \
+        cursor.execute("insert into college(college_name, employ_rate, sex_ratio, der, oer, keyword, college_province, popularity) \
                        values ('{}','{}','{}','{}','{}','{}','{}','{}')".format
-                       (college_data["college_name"], college_data["employ_rate"],college_data["sex_ratio"],college_data["der"],college_data["oer"],college_data["keyword"],college_data["province_name"],college_data["popularity"]))
+                       (college_data["college_name"], college_data["employ_rate"],college_data["sex_ratio"],college_data["der"],college_data["oer"],college_data["keyword"],college_data["college_province"],college_data["popularity"]))
 
     for i in college_datas:
         insert_college(i)

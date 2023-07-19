@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Vector;
 
 @RestController
 @CrossOrigin
@@ -53,11 +54,9 @@ public class QueryController {
     }
 
     @GetMapping("/query/best-match-college")
-    protected College queryBestMatchCollege(String userName) {
+    protected List<College> queryBestMatchCollege(String userName) {
         User user = userMapper.findByUserName(userName);
         List<College> colleges = collegeMapper.findAll();
-
-        College dest = null;
         float maxn = 0;
 
         String desMajor = user.getDesMajor();
@@ -68,10 +67,9 @@ public class QueryController {
         float grade = user.getGrade();
         int year = Const.YEAR.getValue();
         int counter = 0;
+        Vector<Float> collegeScore = new Vector<Float>();
 
-        for (int k = 0; k < colleges.size(); ++k) {
-
-            College college = colleges.get(k);
+        for (College college : colleges) {
 
             float temp = 0;
 
@@ -86,53 +84,63 @@ public class QueryController {
             int collegeId = college.getCollegeId();
 
             // major level equals to A or A+
-            for(MajorInfo majorInfo : majorInfoMapper.findByCollegeID(collegeId)) {
-                if(!majorInfo.getLevel().isEmpty() && (majorInfo.getLevel().equals("A") || majorInfo.getLevel().equals("A+"))) {
+            for (MajorInfo majorInfo : majorInfoMapper.findByCollegeID(collegeId)) {
+                if (!majorInfo.getLevel().isEmpty() && (majorInfo.getLevel().equals("A") || majorInfo.getLevel().equals("A+"))) {
                     temp += 20;
                     break;
                 }
             }
 
-            if(sex.equals("男") && college.getSexRatio() != 0.0 && college.getSexRatio() < 1) {
+            if (sex.equals("男") && college.getSexRatio() != 0.0 && college.getSexRatio() < 1) {
                 temp += 5;
-            } else if(sex.equals("女") && college.getSexRatio() > 1) {
+            } else if (sex.equals("女") && college.getSexRatio() > 1) {
                 temp += 5;
             }
-            if(college.getEmployRate() != 0.0) {
+            if (college.getEmployRate() != 0.0) {
                 temp += college.getEmployRate() * 25;
             }
-            if(college.getDer() != 0.0) {
+            if (college.getDer() != 0.0) {
                 temp += college.getDer() * 40;
             }
-            if(college.getOer() != 0.0) {
+            if (college.getOer() != 0.0) {
                 temp += college.getOer() * 40;
             }
 
-            List< MajorEnroll> majorEnrolls = majorEnrollMapper.getAverageAdmissionScoreRecentThreeYears(
+            List<MajorEnroll> majorEnrolls = majorEnrollMapper.getAverageAdmissionScoreRecentThreeYears(
                     college.getCollegeId(),
                     desMajorID,
-                    year-1,
-                    year-2,
-                    year-3
+                    year - 1,
+                    year - 2,
+                    year - 3
             );
 
             float averageScore = 0;
-            for(MajorEnroll majorEnroll : majorEnrolls) {
+            for (MajorEnroll majorEnroll : majorEnrolls) {
                 averageScore += majorEnroll.getMajorGrade();
             }
 
             averageScore /= majorEnrolls.size();
 
-            temp = temp * (1 - (averageScore-grade)/50);
+            temp = temp * (1 - (averageScore - grade) / 50);
 
-
-            if(temp > maxn) {
-                maxn = temp;
-                counter = k;
-            }
-
+            collegeScore.add(temp);
         }
-        return colleges.get(counter);
+
+        // sort the colleges by collegeScore
+        for (int i = 0; i < colleges.size(); i++) {
+            for (int j = i + 1; j < colleges.size(); j++) {
+                if (collegeScore.get(i) < collegeScore.get(j)) {
+                    float temp = collegeScore.get(i);
+                    collegeScore.set(i, collegeScore.get(j));
+                    collegeScore.set(j, temp);
+
+                    College tempCollege = colleges.get(i);
+                    colleges.set(i, colleges.get(j));
+                    colleges.set(j, tempCollege);
+                }
+            }
+        }
+        return colleges;
     }
 
     @GetMapping("/query/find-feedback-by-user-name")

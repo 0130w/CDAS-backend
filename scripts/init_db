@@ -34,7 +34,7 @@ sql_colleges = "create table if not exists `college` ( \
                 der float(11) not null, \
                 oer float(11) not null, \
                 keyword varchar(50) not null, \
-                province_name varchar(20) not null, \
+                college_province varchar(20) not null, \
                 popularity float(11) not null, \
                 display_ad boolean default False \
                 )"
