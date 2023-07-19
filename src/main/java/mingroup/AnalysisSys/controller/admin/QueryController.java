@@ -57,20 +57,15 @@ public class QueryController {
     }
 
     @GetMapping("/query/best-match-college")
-    protected List<College> queryBestMatchCollege(String userName) {
+    protected List<College> queryBestMatchCollege(String userName, String desMajor, String desProvince, String desCollege) {
         User user = userMapper.findByUserName(userName);
         List<College> colleges = collegeMapper.findAll();
-        float maxn = 0;
 
-        String desMajor = user.getDesMajor();
         int desMajorID = majorMapper.getMajorByName(desMajor).getMajorID();
-        String desProvince = user.getDesProvince();
-        String desCollege = user.getDesCollege();
         String sex = user.getSex();
         float grade = user.getGrade();
         int year = Const.YEAR.getValue();
-        int counter = 0;
-        Vector<Float> collegeScore = new Vector<Float>();
+        Vector<Float> collegeScore = new Vector<>();
 
         for (College college : colleges) {
 
