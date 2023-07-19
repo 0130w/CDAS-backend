@@ -139,4 +139,19 @@ public class QueryController {
     protected List<Feedback> findFeedbackByUserName(String userName) {
         return userMapper.findFeedbackByUserName(userName);
     }
+
+    @GetMapping("/query/college-by-popularity")
+    protected List<College> queryCollegeByPopularity() {
+        List<College> colleges = collegeMapper.findAll();
+        colleges.sort((o1, o2) -> {
+            if(o1.getPopularity() > o2.getPopularity()) {
+                return -1;
+            } else if(o1.getPopularity() < o2.getPopularity()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return colleges;
+    }
 }
